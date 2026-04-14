@@ -628,15 +628,17 @@ class TwitchDownloader:
             "-o", output_path,
             "--collision", "Overwrite",
             "--temp-path", job_dir,
-            "--threads", "20",
         ]
-        # для VOD — нативная обрезка на уровне сегментов HLS
-        if sections is not None and not is_clip:
-            start_sec, end_sec = sections
-            cmd += [
-                "-b", seconds_to_timecode(start_sec),
-                "-e", seconds_to_timecode(end_sec),
-            ]
+        # --threads поддерживается только videodownload (у клипа один готовый mp4)
+        if not is_clip:
+            cmd += ["--threads", "20"]
+            # нативная обрезка на уровне HLS-сегментов
+            if sections is not None:
+                start_sec, end_sec = sections
+                cmd += [
+                    "-b", seconds_to_timecode(start_sec),
+                    "-e", seconds_to_timecode(end_sec),
+                ]
 
         # длительность нужна для прогресс-бара
         if sections is not None:
