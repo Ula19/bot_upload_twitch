@@ -76,7 +76,8 @@ async def add_channel(
     )
     existing = result.scalar_one_or_none()
     if existing:
-        raise ValueError(f"Канал {channel_id} уже добавлен")
+        # без текста — admin.py переводит на язык админа по типу исключения
+        raise ValueError("channel_already_exists")
 
     channel = Channel(
         channel_id=channel_id,

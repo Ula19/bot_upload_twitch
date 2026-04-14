@@ -589,6 +589,46 @@ TRANSLATIONS = {
         "uz": f"{E['lock']} Kirish yo'q",
         "en": f"{E['lock']} No access",
     },
+    "admin.channel_deleted": {
+        "ru": f"{E['check']} Канал удалён!",
+        "uz": f"{E['check']} Kanal o'chirildi!",
+        "en": f"{E['check']} Channel deleted!",
+    },
+    "admin.channel_not_found": {
+        "ru": f"{E['cross']} Канал не найден",
+        "uz": f"{E['cross']} Kanal topilmadi",
+        "en": f"{E['cross']} Channel not found",
+    },
+    "admin.channel_already_exists": {
+        "ru": f"{E['cross']} Канал уже добавлен",
+        "uz": f"{E['cross']} Kanal avval qo'shilgan",
+        "en": f"{E['cross']} Channel already exists",
+    },
+    "admin.broadcast_no_message": {
+        "ru": f"{E['cross']} Нет сообщения",
+        "uz": f"{E['cross']} Xabar yo'q",
+        "en": f"{E['cross']} No message",
+    },
+    "alert.source_failed": {
+        "ru": (
+            f"{E['warning']} <b>Twitch: источник упал</b>\n\n"
+            "<b>Источник:</b> {source}\n"
+            "<b>Категория:</b> {category}\n"
+            "<b>Ошибка:</b> <code>{error}</code>"
+        ),
+        "uz": (
+            f"{E['warning']} <b>Twitch: manba ishlamayapti</b>\n\n"
+            "<b>Manba:</b> {source}\n"
+            "<b>Toifa:</b> {category}\n"
+            "<b>Xato:</b> <code>{error}</code>"
+        ),
+        "en": (
+            f"{E['warning']} <b>Twitch: source is down</b>\n\n"
+            "<b>Source:</b> {source}\n"
+            "<b>Category:</b> {category}\n"
+            "<b>Error:</b> <code>{error}</code>"
+        ),
+    },
     "twitch_uploading": {
         "ru": f"{E['plane']} Загружаю файл в Telegram... Это может занять пару минут",
         "uz": f"{E['plane']} Fayl Telegramga yuklanmoqda... Bir necha daqiqa olishi mumkin",

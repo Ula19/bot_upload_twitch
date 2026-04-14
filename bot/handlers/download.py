@@ -615,15 +615,15 @@ async def _send_fallback_alert(source: str, error: str) -> None:
     _last_fallback_alert[key] = now
 
     short = error[:300] + "..." if len(error) > 300 else error
-    text = (
-        f"{E['warning']} <b>Twitch: источник упал</b>\n\n"
-        f"<b>Источник:</b> {source}\n"
-        f"<b>Категория:</b> {category}\n"
-        f"<b>Ошибка:</b> <code>{short}</code>"
-    )
 
     for admin_id in settings.admin_id_list:
         try:
+            async with async_session() as session:
+                admin_lang = await get_user_language(session, admin_id)
+            text = t(
+                "alert.source_failed", admin_lang,
+                source=source, category=category, error=short,
+            )
             await _bot_ref.send_message(admin_id, text, parse_mode="HTML")
         except Exception as e:
             logger.warning("Не удалось уведомить админа %s: %s", admin_id, e)

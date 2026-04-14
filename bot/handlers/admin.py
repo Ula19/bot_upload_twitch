@@ -239,10 +239,9 @@ async def process_invite_link(message: Message, state: FSMContext) -> None:
             reply_markup=get_admin_keyboard(lang),
         )
     except ValueError as e:
-        await message.answer(
-            f"{E['cross']} {e}",
-            reply_markup=get_admin_keyboard(lang),
-        )
+        key = f"admin.{e}" if str(e).startswith("channel_") else None
+        text = t(key, lang) if key else f"{E['cross']} {e}"
+        await message.answer(text, reply_markup=get_admin_keyboard(lang))
 
 
 # === Удаление канала ===
@@ -293,10 +292,11 @@ async def delete_channel(callback: CallbackQuery) -> None:
     async with async_session() as session:
         removed = await remove_channel(session, channel_id)
 
+    lang = await _get_lang(callback.from_user.id)
     if removed:
-        await callback.answer(f"{E['check']} Канал удалён!")
+        await callback.answer(t("admin.channel_deleted", lang))
     else:
-        await callback.answer(f"{E['cross']} Канал не найден")
+        await callback.answer(t("admin.channel_not_found", lang))
 
     await admin_channels(callback)
 
@@ -429,7 +429,7 @@ async def confirm_broadcast(
     await state.clear()
 
     if not msg_data:
-        await callback.answer(f"{E['cross']} Нет сообщения")
+        await callback.answer(t("admin.broadcast_no_message", lang))
         return
 
     await callback.message.edit_text(t("admin.broadcast_started", lang))
