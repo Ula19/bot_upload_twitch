@@ -564,6 +564,31 @@ TRANSLATIONS = {
         "uz": f"{E['clock']} Twitch'dan yuklanmoqda... Kuting",
         "en": f"{E['clock']} Downloading from Twitch... Please wait",
     },
+    "twitch_progress_title": {
+        "ru": f"{E['clock']} Скачиваю...",
+        "uz": f"{E['clock']} Yuklab olmoqda...",
+        "en": f"{E['clock']} Downloading...",
+    },
+    "twitch_progress_size": {
+        "ru": "{dl} МБ из {total} МБ",
+        "uz": "{dl} MB / {total} MB",
+        "en": "{dl} MB of {total} MB",
+    },
+    "twitch_progress_size_only": {
+        "ru": "{dl} МБ",
+        "uz": "{dl} MB",
+        "en": "{dl} MB",
+    },
+    "error.url_lost": {
+        "ru": f"{E['cross']} Ссылка не найдена, отправь заново",
+        "uz": f"{E['cross']} Havola topilmadi, qaytadan yuboring",
+        "en": f"{E['cross']} Link not found, send it again",
+    },
+    "error.no_access": {
+        "ru": f"{E['lock']} Нет доступа",
+        "uz": f"{E['lock']} Kirish yo'q",
+        "en": f"{E['lock']} No access",
+    },
     "twitch_uploading": {
         "ru": f"{E['plane']} Загружаю файл в Telegram... Это может занять пару минут",
         "uz": f"{E['plane']} Fayl Telegramga yuklanmoqda... Bir necha daqiqa olishi mumkin",

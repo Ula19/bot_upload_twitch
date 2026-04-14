@@ -74,12 +74,12 @@ async def open_admin_panel(callback: CallbackQuery) -> None:
     """Открывает админ-панель через кнопку"""
     from bot.keyboards.admin import get_admin_keyboard
 
-    if callback.from_user.id not in settings.admin_id_list:
-        await callback.answer(f"{E['ban']} Нет доступа")
-        return
-
     async with async_session() as session:
         lang = await get_user_language(session, callback.from_user.id)
+
+    if callback.from_user.id not in settings.admin_id_list:
+        await callback.answer(t("error.no_access", lang))
+        return
 
     await callback.message.edit_text(
         t("admin.title", lang),

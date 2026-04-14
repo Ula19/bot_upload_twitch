@@ -148,7 +148,7 @@ async def choose_audio_format(callback: CallbackQuery, state: FSMContext) -> Non
     await callback.answer()
 
     if not url:
-        await callback.message.answer(f"{E['cross']} Ссылка не найдена, отправь заново")
+        await callback.message.answer(t("error.url_lost", lang))
         return
 
     await _process_download(
@@ -246,7 +246,7 @@ async def choose_quality(callback: CallbackQuery, state: FSMContext) -> None:
     await state.clear()
 
     if not url or idx < 0 or idx >= len(qualities):
-        await callback.message.answer(f"{E['cross']} Ссылка не найдена, отправь заново")
+        await callback.message.answer(t("error.url_lost", lang))
         return
 
     quality = qualities[idx]
@@ -309,7 +309,7 @@ async def _process_download(
 
         def on_progress(dl_mb: float, total_mb: float, percent: int) -> None:
             # хук вызывается из executor-треда yt-dlp; троттлинг (3 сек) уже сделан внутри _download
-            text = _progress_bar(percent, dl_mb, total_mb)
+            text = _progress_bar(percent, dl_mb, total_mb, lang)
             try:
                 loop.call_soon_threadsafe(
                     lambda: asyncio.create_task(_safe_edit(status_msg, text))
@@ -512,15 +512,18 @@ def _quality_from_dict(d: dict) -> QualityOption:
     )
 
 
-def _progress_bar(percent: int, dl_mb: float, total_mb: float) -> str:
+def _progress_bar(percent: int, dl_mb: float, total_mb: float, lang: str = "ru") -> str:
     filled = int(percent / 100 * 12)
     bar = "▰" * filled + "▱" * (12 - filled)
-    text = f"{E['clock']} Скачиваю...\n{bar} {percent}%"
+    text = f"{t('twitch_progress_title', lang)}\n{bar} {percent}%"
     # размер может быть 0 если downloader его не отдаёт (TwitchDownloaderCLI)
     if total_mb > 0:
-        text += f"\n{dl_mb:.0f} МБ из {total_mb:.0f} МБ"
+        text += "\n" + t(
+            "twitch_progress_size", lang,
+            dl=f"{dl_mb:.0f}", total=f"{total_mb:.0f}",
+        )
     elif dl_mb > 0:
-        text += f"\n{dl_mb:.0f} МБ"
+        text += "\n" + t("twitch_progress_size_only", lang, dl=f"{dl_mb:.0f}")
     return text
 
 
