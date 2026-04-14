@@ -160,6 +160,7 @@ async def choose_audio_format(callback: CallbackQuery, state: FSMContext) -> Non
         media_type=data.get("media_type", "vod"),
         twitch_id=data.get("twitch_id", ""),
         sections=tuple(sections) if sections else None,
+        title=data.get("title", ""),
     )
 
 
@@ -260,6 +261,7 @@ async def choose_quality(callback: CallbackQuery, state: FSMContext) -> None:
         media_type=data.get("media_type", "vod"),
         twitch_id=data.get("twitch_id", ""),
         sections=tuple(sections) if sections else None,
+        title=data.get("title", ""),
     ))
 
 
@@ -275,6 +277,7 @@ async def _process_download(
     media_type: str = "vod",
     twitch_id: str = "",
     sections: tuple[int, int] | None = None,
+    title: str = "",
 ) -> None:
     """Качает и отправляет файл. Для sections=None — проверяет кэш."""
 
@@ -324,6 +327,11 @@ async def _process_download(
                 result = await downloader.download_video(
                     url, quality, on_progress, sections=sections,
                 )
+
+            # реальное название видео мы знаем из get_info (хранилось в FSM),
+            # downloader мог вернуть плейсхолдер вида "Twitch 123456" — перезапишем
+            if title and result is not None:
+                result.title = title
 
             # отправка
             try:
